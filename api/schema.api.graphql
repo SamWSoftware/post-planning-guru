@@ -1,0 +1,136 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Query {
+    getMyUser: User!
+
+    getCompany(companyID: String!): Company!
+
+    getPostsForCompany(companyID: String!, limit: Int!, nextToken: String): PostPage
+    getPublishedPostsForCompany(companyID: String!, limit: Int!, nextToken: String): PostPage
+
+    getPostsForGroup(companyID: String!, groupID: String!, limit: Int!, nextToken: String): PostPage
+    getPublishedPostsForGroup(
+        companyID: String!
+        groupID: String!
+        limit: Int!
+        nextToken: String
+    ): PostPage
+}
+type Mutation {
+    createUser(firstName: String!, lastName: String!): User
+
+    createCompany(userID: String!, companyName: String!, companyLogoURL: String): Company
+
+    setCompanyLinkedInCode(companyID: String!, linkedInCode: String!): Company
+    createCompanyLinkedInToken(companyID: String!): Company
+}
+
+type User @model @key(fields: ["userID"]) {
+    userID: ID!
+    name: String!
+    email: String!
+
+    companies: [Company]
+}
+
+type Company @model @key(fields: ["companyID"]) @key(name: "byOwner", fields: ["userID"]) {
+    companyID: ID!
+    ownerID: ID! # This is the user who set up the company
+    owner: User
+    companyName: String!
+    companyLogoURL: String
+
+    linkedInCode: String
+    accessToken: String
+    accessTokenExpiry: Int
+
+    posts: [PostPage]
+    publishedPosts: [PostPage]
+    groups: [GroupPage]
+    schedules: [SchedulePage]
+}
+
+type PostPage {
+    posts: [IPost!]
+    nextToken: String
+}
+
+interface IPost {
+    postID: ID!
+    companyID: ID!
+    date: AWSDateTime!
+
+    content: Content!
+}
+
+type Content {
+    text: String!
+}
+
+type Post implements IPost
+    @model
+    @key(fields: ["postID"])
+    @key(name: "byCompanyGroupDate", fields: ["companyID", "groupID", "date"]) {
+    # This will allow us to query for all posts of a given group, sorted by date.
+    postID: ID!
+    companyID: ID!
+    company: Company
+    groupID: ID!
+    date: AWSDateTime!
+
+    content: Content!
+
+    TTL: Int
+}
+
+type PublishedPost implements IPost
+    @model
+    @key(fields: ["postID"])
+    @key(name: "byCompanyGroupDate", fields: ["companyID", "groupID", "date"]) {
+    # This will allow us to query for all posts of a given group, sorted by date.
+    postID: ID!
+    companyID: ID!
+    company: Company
+    date: AWSDateTime!
+    groupID: ID!
+
+    content: Content!
+}
+
+type Group @model @key(fields: ["companyID", "groupID"]) {
+    companyID: ID!
+    company: Company
+    groupID: String!
+    groupName: String!
+    description: String
+
+    schedule: [Schedule]
+
+    posts: [Post]
+}
+
+type GroupPage {
+    groups: [Group!]
+    nextToken: String
+}
+
+type Schedule @model @key(fields: ["companyID", "scheduleID"]) {
+    companyID: ID!
+    company: Company
+    scheduleID: ID!
+
+    groupID: ID!
+    group: Group
+
+    TTL: Int!
+    cronSchedule: String!
+    name: String
+    description: String
+}
+type SchedulePage {
+    schedules: [Schedule!]
+    nextToken: String
+}
