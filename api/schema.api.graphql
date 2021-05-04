@@ -8,14 +8,19 @@ type Query {
 
     getCompany(companyID: String!): Company!
 
-    getPostsForCompany(companyID: String!, limit: Int!, nextToken: String): PostPage
-    getPublishedPostsForCompany(companyID: String!, limit: Int!, nextToken: String): PostPage
+    getCompanies(userID: String!, limit: Int, nextToken: String): {
+        companies: [Company],
+        nextToken: String
+    }
 
-    getPostsForGroup(companyID: String!, groupID: String!, limit: Int!, nextToken: String): PostPage
+    getPostsForCompany(companyID: String!, limit: Int, nextToken: String ): PostPage
+    getPublishedPostsForCompany(companyID: String!, limit: Int, nextToken: String): PostPage
+
+    getPostsForGroup(companyID: String!, groupID: String!, limit: Int, nextToken: String): PostPage
     getPublishedPostsForGroup(
         companyID: String!
         groupID: String!
-        limit: Int!
+        limit: Int
         nextToken: String
     ): PostPage
 }

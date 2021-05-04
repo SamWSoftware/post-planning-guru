@@ -69,6 +69,10 @@ const DynamoDBResources = {
                     AttributeName: 'userID',
                     KeyType: 'HASH',
                 },
+                {
+                    AttributeName: 'userRelationship',
+                    KeyType: 'RANGE',
+                },
             ],
             AttributeDefinitions: [
                 {
@@ -76,7 +80,15 @@ const DynamoDBResources = {
                     AttributeType: 'S',
                 },
                 {
+                    AttributeName: 'userRelationship',
+                    AttributeType: 'S',
+                },
+                {
                     AttributeName: 'companyID',
+                    AttributeType: 'S',
+                },
+                {
+                    AttributeName: 'companyRelationship',
                     AttributeType: 'S',
                 },
             ],
@@ -87,6 +99,10 @@ const DynamoDBResources = {
                         {
                             AttributeName: 'companyID',
                             KeyType: 'HASH',
+                        },
+                        {
+                            AttributeName: 'companyRelationship',
+                            KeyType: 'RANGE',
                         },
                     ],
                     Projection: {

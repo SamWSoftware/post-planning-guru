@@ -83,6 +83,10 @@ const appSync = {
             },
         },
     ],
+
+    substitutions: {
+        CompaniesTable: { Ref: 'CompaniesTable' },
+    },
 };
 
 export default appSync;

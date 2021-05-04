@@ -1,0 +1,4 @@
+{ 
+    "companies": $util.toJson($context.result.data.${CompaniesTable}),
+    "nextToken": $util.toJson($util.defaultIfNullOrBlank($context.prev.result.nextToken, null))
+}

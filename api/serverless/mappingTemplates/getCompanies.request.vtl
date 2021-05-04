@@ -1,0 +1,16 @@
+{
+    "version" : "2018-05-29",
+    "operation" : "Query",
+    "query" : {
+        "expression" : "userID = :userID"
+        "expressionValues": {
+            ":userID" : $util.dynamodb.toDynamoDBJson($context.arguments.userID)
+        }
+    },
+    "nextToken" : $util.toJson($context.arguments.nextToken),
+    "limit" : $util.toJson($util.defaultIfNullOrBlank($context.arguments.limit, 10)),
+    "scanIndexForward" : false,
+    "consistentRead" : false,
+    "select" : "ALL_ATTRIBUTES"
+}
+

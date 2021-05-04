@@ -1,0 +1,21 @@
+#if ($context.prev.result.relationships.size() == 0)
+    #return({ "companies": [] })
+#end
+
+#set ($companies = [])
+#foreach ($relationship in $context.prev.result.relationships)
+    #set ($company = {})
+    #set ($company.companyID = $relationship.companyID)
+    $util.qr($companies.add($util.dynamodb.toMapValues($company)))
+#end
+
+{
+    "version" : "2018-05-29",
+    "operation" : "BatchGetItem",
+    "tables" : {
+        "${CompaniesTable}": {
+            "keys": $util.toJson($companies),
+            "consistentRead": false
+        }
+    }
+}
