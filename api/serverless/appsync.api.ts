@@ -36,7 +36,7 @@ const appSync = {
 
         {
             type: 'Query',
-            field: 'getPosts',
+            field: 'getPost',
             dataSource: 'postsTable',
         },
         {
@@ -50,7 +50,7 @@ const appSync = {
             dataSource: 'postsTable',
         },
 
-        {
+        /*{
             type: 'Query',
             field: 'getPublishedPost',
             dataSource: 'publishedPostsTable',
@@ -65,6 +65,7 @@ const appSync = {
             field: 'getPublishedPostsForGroup',
             dataSource: 'publishedPostsTable',
         },
+        */
 
         // Mutations
 

@@ -3,6 +3,10 @@
 #else
     #set ( $userID = $context.identity.username )
 #end
+#if ($context.arguments.limit)
+    #set ($isValidLimit = $context.arguments.limit <= 25)
+    $util.validate($isValidLimit, "max limit is 25")
+#end
 
 {
     "version" : "2018-05-29",

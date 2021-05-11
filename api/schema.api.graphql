@@ -28,12 +28,17 @@ type Query {
         nextToken: String
     ): PublishedPostPage
 
-    getGroup(companyID: String! groupID: String!): Group
-    getGroups(companyID: String!, limit: Int, nextToken: String) GroupPage
+    getGroup(companyID: String!, groupID: String!): Group
+    getGroups(companyID: String!, limit: Int, nextToken: String): GroupPage
 
     getSchedule(companyID: String!, scheduleID: String!): Schedule
-    getSchedulesForCompany(companyID: String!, limit: Int, nextToken: String) SchedulePage
-    getSchedulesForGroup(companyID: String!, groupID: String!, limit: Int, nextToken: String) SchedulePage
+    getSchedulesForCompany(companyID: String!, limit: Int, nextToken: String): SchedulePage
+    getSchedulesForGroup(
+        companyID: String!
+        groupID: String!
+        limit: Int
+        nextToken: String
+    ): SchedulePage
 }
 type Mutation {
     createUser(firstName: String!, lastName: String!): User
@@ -134,7 +139,10 @@ type GroupPage {
     nextToken: String
 }
 
-type Schedule @model @key(fields: ["companyID", "scheduleID"]) @key(naem: "byGroup" fields: ["groupID", "scheduleID"]) {
+type Schedule
+    @model
+    @key(fields: ["companyID", "scheduleID"])
+    @key(naem: "byGroup", fields: ["groupID", "scheduleID"]) {
     companyID: ID!
     scheduleID: ID!
 
