@@ -34,6 +34,38 @@ const appSync = {
             response: 'simplePipeline.response.vtl',
         },
 
+        {
+            type: 'Query',
+            field: 'getPosts',
+            dataSource: 'postsTable',
+        },
+        {
+            type: 'Query',
+            field: 'getPostsForCompany',
+            dataSource: 'postsTable',
+        },
+        {
+            type: 'Query',
+            field: 'getPostsForGroup',
+            dataSource: 'postsTable',
+        },
+
+        {
+            type: 'Query',
+            field: 'getPublishedPost',
+            dataSource: 'publishedPostsTable',
+        },
+        {
+            type: 'Query',
+            field: 'getPublishedPostsForCompany',
+            dataSource: 'publishedPostsTable',
+        },
+        {
+            type: 'Query',
+            field: 'getPublishedPostsForGroup',
+            dataSource: 'publishedPostsTable',
+        },
+
         // Mutations
 
         // Nested Fields
@@ -41,7 +73,10 @@ const appSync = {
             // Get Companies For User
             type: 'User',
             field: 'companies',
-            dataSource: 'companiesTable',
+            kind: 'PIPELINE',
+            functions: ['getCompanies', 'hydrateCompanies'],
+            request: 'simplePipeline.request.vtl',
+            response: 'simplePipeline.response.vtl',
         },
     ],
 
@@ -80,6 +115,34 @@ const appSync = {
             name: 'relationshipsTable',
             config: {
                 tableName: { Ref: 'RelationshipsTable' },
+            },
+        },
+        {
+            type: 'AMAZON_DYNAMODB',
+            name: 'postsTable',
+            config: {
+                tableName: { Ref: 'PostsTable' },
+            },
+        },
+        {
+            type: 'AMAZON_DYNAMODB',
+            name: 'publishedPostsTable',
+            config: {
+                tableName: { Ref: 'PublishedPostsTable' },
+            },
+        },
+        {
+            type: 'AMAZON_DYNAMODB',
+            name: 'groupsTable',
+            config: {
+                tableName: { Ref: 'GroupsTable' },
+            },
+        },
+        {
+            type: 'AMAZON_DYNAMODB',
+            name: 'scheduleTable',
+            config: {
+                tableName: { Ref: 'ScheduleTable' },
             },
         },
     ],
