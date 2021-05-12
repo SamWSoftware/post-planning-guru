@@ -252,6 +252,28 @@ const DynamoDBResources = {
                     AttributeName: 'scheduleID',
                     AttributeType: 'S',
                 },
+                {
+                    AttributeName: 'groupID',
+                    AttributeType: 'S',
+                },
+            ],
+            GlobalSecondaryIndexes: [
+                {
+                    IndexName: 'byGroup',
+                    KeySchema: [
+                        {
+                            AttributeName: 'groupID',
+                            KeyType: 'HASH',
+                        },
+                        {
+                            AttributeName: 'scheduleID',
+                            KeyType: 'RANGE',
+                        },
+                    ],
+                    Projection: {
+                        ProjectionType: 'ALL',
+                    },
+                },
             ],
         },
     },

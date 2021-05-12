@@ -142,7 +142,7 @@ type GroupPage {
 type Schedule
     @model
     @key(fields: ["companyID", "scheduleID"])
-    @key(naem: "byGroup", fields: ["groupID", "scheduleID"]) {
+    @key(name: "byGroup", fields: ["groupID", "scheduleID"]) {
     companyID: ID!
     scheduleID: ID!
 

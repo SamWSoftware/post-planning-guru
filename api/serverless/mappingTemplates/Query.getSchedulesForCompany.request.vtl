@@ -1,0 +1,21 @@
+#if ($context.arguments.limit)
+    #set ($isValidLimit = $context.arguments.limit <= 25)
+    $util.validate($isValidLimit, "max limit is 25")
+#end
+
+{
+    "version" : "2018-05-29",
+    "operation" : "Query",
+    "query" : {
+        "expression" : "companyID = :companyID",
+        "expressionValues": {
+            ":companyID" : $util.dynamodb.toDynamoDBJson($context.arguments.companyID)
+        }
+    },
+    "nextToken" : $util.toJson($context.arguments.nextToken),
+    "limit" : $util.toJson($util.defaultIfNullOrBlank($context.arguments.limit, 10)),
+    "scanIndexForward" : false,
+    "consistentRead" : false,
+    "select" : "ALL_ATTRIBUTES"
+}
+
