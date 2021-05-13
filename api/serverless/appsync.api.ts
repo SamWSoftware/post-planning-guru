@@ -17,11 +17,6 @@ const appSync = {
         },
         {
             type: 'Query',
-            field: 'getMyUser',
-            dataSource: 'usersTable',
-        },
-        {
-            type: 'Query',
             field: 'getCompany',
             dataSource: 'companiesTable',
         },
@@ -49,8 +44,7 @@ const appSync = {
             field: 'getPostsForGroup',
             dataSource: 'postsTable',
         },
-
-        /*{
+        {
             type: 'Query',
             field: 'getPublishedPost',
             dataSource: 'publishedPostsTable',
@@ -65,7 +59,33 @@ const appSync = {
             field: 'getPublishedPostsForGroup',
             dataSource: 'publishedPostsTable',
         },
-        */
+
+        {
+            type: 'Query',
+            field: 'getGroup',
+            dataSource: 'groupsTable',
+        },
+        {
+            type: 'Query',
+            field: 'getGroups',
+            dataSource: 'groupsTable',
+        },
+
+        {
+            type: 'Query',
+            field: 'getSchedule',
+            dataSource: 'schedulesTable',
+        },
+        {
+            type: 'Query',
+            field: 'getSchedulesForCompany',
+            dataSource: 'schedulesTable',
+        },
+        {
+            type: 'Query',
+            field: 'getSchedulesForGroup',
+            dataSource: 'schedulesTable',
+        },
 
         // Mutations
 
@@ -78,6 +98,60 @@ const appSync = {
             functions: ['getCompanies', 'hydrateCompanies'],
             request: 'simplePipeline.request.vtl',
             response: 'simplePipeline.response.vtl',
+        },
+
+        {
+            type: 'Company',
+            field: 'owner',
+            dataSource: 'usersTable',
+        },
+
+        {
+            type: 'Company',
+            field: 'posts',
+            dataSource: 'postsTable',
+        },
+        {
+            type: 'Company',
+            field: 'publishedPosts',
+            dataSource: 'publishedPostsTable',
+            request: 'Company.posts.request.vtl',
+            response: 'Company.posts.response.vtl',
+        },
+        {
+            type: 'Company',
+            field: 'groups',
+            dataSource: 'groupsTable',
+        },
+        {
+            type: 'Company',
+            field: 'schedules',
+            dataSource: 'schedulesTable',
+        },
+
+        {
+            type: 'Post',
+            field: 'company',
+            dataSource: 'companiesTable',
+        },
+        {
+            type: 'Post',
+            field: 'group',
+            dataSource: 'groupsTable',
+        },
+        {
+            type: 'PublishedPost',
+            field: 'company',
+            dataSource: 'companiesTable',
+            request: 'Post.company.request.vtl',
+            response: 'Post.company.response.vtl',
+        },
+        {
+            type: 'PublishedPost',
+            field: 'group',
+            dataSource: 'groupsTable',
+            request: 'Post.group.request.vtl',
+            response: 'Post.group.response.vtl',
         },
     ],
 
@@ -141,7 +215,7 @@ const appSync = {
         },
         {
             type: 'AMAZON_DYNAMODB',
-            name: 'scheduleTable',
+            name: 'schedulesTable',
             config: {
                 tableName: { Ref: 'ScheduleTable' },
             },

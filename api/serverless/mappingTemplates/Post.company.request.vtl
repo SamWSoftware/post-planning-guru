@@ -1,0 +1,8 @@
+{
+    "version" : "2018-05-29",
+    "operation" : "GetItem",
+    "key" : {
+        "companyID" : $util.dynamodb.toDynamoDBJson($context.source.companyID)
+    }
+}
+

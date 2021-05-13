@@ -15,7 +15,7 @@
     "index": "byCompanyGroupDate",
     "nextToken" : $util.toJson($context.arguments.nextToken),
     "limit" : $util.toJson($util.defaultIfNullOrBlank($context.arguments.limit, 10)),
-    "scanIndexForward" : false,
+    "scanIndexForward" : true,
     "consistentRead" : false,
     "select" : "ALL_ATTRIBUTES"
 }

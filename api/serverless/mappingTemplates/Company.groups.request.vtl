@@ -7,10 +7,9 @@
     "version" : "2018-05-29",
     "operation" : "Query",
     "query" : {
-        "expression" : "companyID = :companyID AND begins_with(sortKey2, :groupID)",
+        "expression" : "companyID = :companyID",
         "expressionValues": {
-            ":companyID" : $util.dynamodb.toDynamoDBJson($context.arguments.companyID),
-            ":groupID" : $util.dynamodb.toDynamoDBJson($context.arguments.groupID),
+            ":companyID" : $util.dynamodb.toDynamoDBJson($context.source.companyID)
         }
     },
     "index": "byCompanyGroupDate",

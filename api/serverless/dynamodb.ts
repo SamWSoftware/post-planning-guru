@@ -137,6 +137,10 @@ const DynamoDBResources = {
                     AttributeType: 'S',
                 },
             ],
+            TimeToLiveSpecification: {
+                AttributeName: 'TTL',
+                Enabled: true,
+            },
             GlobalSecondaryIndexes: [
                 {
                     IndexName: 'byCompanyGroupDate',
@@ -257,6 +261,10 @@ const DynamoDBResources = {
                     AttributeType: 'S',
                 },
             ],
+            TimeToLiveSpecification: {
+                AttributeName: 'TTL',
+                Enabled: true,
+            },
             GlobalSecondaryIndexes: [
                 {
                     IndexName: 'byGroup',
