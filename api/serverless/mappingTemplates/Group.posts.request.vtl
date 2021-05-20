@@ -7,13 +7,14 @@
     "version" : "2018-05-29",
     "operation" : "Query",
     "query" : {
-        "expression" : "companyID = :companyID",
+        "expression" : "companyID = :companyID AND begins_with(sortKey2, :groupID)",
         "expressionValues": {
-            ":companyID" : $util.dynamodb.toDynamoDBJson($context.arguments.companyID)
+            ":companyID" : $util.dynamodb.toDynamoDBJson($context.source.companyID),
+            ":groupID" : $util.dynamodb.toDynamoDBJson($context.source.groupID),
         }
     },
-    "nextToken" : $util.toJson($context.arguments.nextToken),
-    "limit" : $util.toJson($util.defaultIfNullOrBlank($context.arguments.limit, 10)),
+    "index": "byCompanyGroupDate",
+    "limit" : $util.toJson(10),
     "scanIndexForward" : true,
     "consistentRead" : false,
     "select" : "ALL_ATTRIBUTES"

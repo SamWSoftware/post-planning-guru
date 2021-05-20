@@ -9,12 +9,13 @@
     "query" : {
         "expression" : "companyID = :companyID",
         "expressionValues": {
-            ":companyID" : $util.dynamodb.toDynamoDBJson($context.arguments.companyID)
+            ":companyID" : $util.dynamodb.toDynamoDBJson($context.source.companyID)
         }
     },
+    "index": "byCompanyGroupDate",
     "nextToken" : $util.toJson($context.arguments.nextToken),
     "limit" : $util.toJson($util.defaultIfNullOrBlank($context.arguments.limit, 10)),
-    "scanIndexForward" : true,
+    "scanIndexForward": false,
     "consistentRead" : false,
     "select" : "ALL_ATTRIBUTES"
 }

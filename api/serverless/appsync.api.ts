@@ -90,15 +90,6 @@ const appSync = {
         // Mutations
 
         // Nested Fields
-        {
-            // Get Companies For User
-            type: 'User',
-            field: 'companies',
-            kind: 'PIPELINE',
-            functions: ['getCompanies', 'hydrateCompanies'],
-            request: 'simplePipeline.request.vtl',
-            response: 'simplePipeline.response.vtl',
-        },
 
         {
             type: 'Company',
@@ -115,8 +106,6 @@ const appSync = {
             type: 'Company',
             field: 'publishedPosts',
             dataSource: 'publishedPostsTable',
-            request: 'Company.posts.request.vtl',
-            response: 'Company.posts.response.vtl',
         },
         {
             type: 'Company',
@@ -133,25 +122,70 @@ const appSync = {
             type: 'Post',
             field: 'company',
             dataSource: 'companiesTable',
+            request: 'Model.company.request.vtl',
+            response: 'Model.company.response.vtl',
         },
         {
             type: 'Post',
             field: 'group',
             dataSource: 'groupsTable',
+            request: 'Model.group.request.vtl',
+            response: 'Model.group.response.vtl',
         },
         {
             type: 'PublishedPost',
             field: 'company',
             dataSource: 'companiesTable',
-            request: 'Post.company.request.vtl',
-            response: 'Post.company.response.vtl',
+            request: 'Model.company.request.vtl',
+            response: 'Model.company.response.vtl',
         },
         {
             type: 'PublishedPost',
             field: 'group',
             dataSource: 'groupsTable',
-            request: 'Post.group.request.vtl',
-            response: 'Post.group.response.vtl',
+            request: 'Model.group.request.vtl',
+            response: 'Model.group.response.vtl',
+        },
+
+        {
+            type: 'Group',
+            field: 'company',
+            dataSource: 'companiesTable',
+            request: 'Model.company.request.vtl',
+            response: 'Model.company.response.vtl',
+        },
+        {
+            type: 'Group',
+            field: 'schedules',
+            dataSource: 'schedulesTable',
+        },
+        {
+            type: 'Group',
+            field: 'posts',
+            dataSource: 'postsTable',
+        },
+        {
+            type: 'Group',
+            field: 'publishedPosts',
+            dataSource: 'publishedPostsTable',
+        },
+
+        {
+            type: 'Schedule',
+            field: 'group',
+            dataSource: 'groupsTable',
+            request: 'Model.group.request.vtl',
+            response: 'Model.group.response.vtl',
+        },
+
+        {
+            // Get Companies For User
+            type: 'User',
+            field: 'companies',
+            kind: 'PIPELINE',
+            functions: ['getCompanies', 'hydrateCompanies'],
+            request: 'simplePipeline.request.vtl',
+            response: 'simplePipeline.response.vtl',
         },
     ],
 

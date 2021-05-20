@@ -1,0 +1,22 @@
+#if ($context.arguments.limit)
+    #set ($isValidLimit = $context.arguments.limit <= 25)
+    $util.validate($isValidLimit, "max limit is 25")
+#end
+
+{
+    "version" : "2018-05-29",
+    "operation" : "Query",
+    "query" : {
+        "expression" : "companyID = :companyID AND begins_with(sortKey2, :groupID)",
+        "expressionValues": {
+            ":companyID" : $util.dynamodb.toDynamoDBJson($context.source.companyID),
+            ":groupID" : $util.dynamodb.toDynamoDBJson($context.source.groupID),
+        }
+    },
+    "index": "byCompanyGroupDate",
+    "limit" : $util.toJson(10),
+    "scanIndexForward" : false,
+    "consistentRead" : false,
+    "select" : "ALL_ATTRIBUTES"
+}
+

@@ -253,7 +253,7 @@ const DynamoDBResources = {
                     AttributeType: 'S',
                 },
                 {
-                    AttributeName: 'scheduleID',
+                    AttributeName: 'scheduleID', // datetime_uuid
                     AttributeType: 'S',
                 },
                 {

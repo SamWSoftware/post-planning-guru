@@ -60,7 +60,7 @@ type User @model @key(fields: ["userID"]) {
 type Company @model @key(fields: ["companyID"]) @key(name: "byOwner", fields: ["userID"]) {
     companyID: ID!
     ownerID: ID! # This is the user who set up the company
-    owner: User
+    owner: User!
     companyName: String!
     companyLogoURL: String
 
@@ -112,7 +112,7 @@ type PublishedPost
     # This will allow us to query for all posts of a given group, sorted by date.
     postID: ID!
     companyID: ID!
-    company: Company
+    company: Company!
     date: Long!
     groupID: ID!
     group: Group!
@@ -121,7 +121,7 @@ type PublishedPost
 }
 
 type PublishedPostPage {
-    posts: [PublishedPost]
+    posts: [PublishedPost!]
     nextToken: String
 }
 
@@ -131,9 +131,12 @@ type Group @model @key(fields: ["companyID", "groupID"]) {
     groupName: String!
     description: String
 
-    schedule: SchedulePage
+    company: Company!
 
-    posts: PostPage
+    schedules: SchedulePage!
+
+    posts: PostPage!
+    publishedPosts: PublishedPostPage!
 }
 
 type GroupPage {
@@ -149,9 +152,7 @@ type Schedule
     scheduleID: ID!
 
     groupID: ID!
-    group: Group
-
-    posts: PostPage
+    group: Group!
 
     TTL: Long!
     cronSchedule: String!
