@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import './App.css';
+import { ChakraProvider } from '@chakra-ui/react';
 import Amplify, { Auth } from 'aws-amplify';
+import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom';
 import awsconfig from './aws-exports';
 
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import theme from './theme';
+import '@fontsource/comfortaa';
 
 import Home from './components/Home';
-import Signin from './components/Signin';
-import { Button } from '@chakra-ui/react';
+import Posts from './components/view/Posts';
+import SignIn from './components/SignIn';
+import Nav from './components/organism/Nav';
 
 Amplify.configure(awsconfig);
 
-const App = () => {
+export const App = () => {
     useEffect(() => {
-        assessLogedInState();
+        assessLoggedInState();
     }, []);
 
-    const assessLogedInState = () => {
+    const assessLoggedInState = () => {
         Auth.currentAuthenticatedUser()
             .then(sess => {
                 console.log('logged in');
@@ -28,7 +31,7 @@ const App = () => {
             });
     };
 
-    const [loggedIn, setLoggedIn] = useState(true);
+    const [loggedIn, setLoggedIn] = useState(false);
 
     const signOut = async () => {
         try {
@@ -40,33 +43,31 @@ const App = () => {
     };
 
     return (
-        <Router>
-            <div className="App">
-                <header className="App-header">
-                    {loggedIn ? (
-                        <Button onClick={signOut} colorScheme="blue">
-                            Log Out
-                        </Button>
-                    ) : (
-                        <Link to="/sign-in">
-                            <Button colorScheme="blue">Log In</Button>
-                        </Link>
-                    )}
-                    <h2>My App Content</h2>
-                    <div></div>
-                </header>
-
+        <ChakraProvider theme={theme}>
+            <Router>
                 <Switch>
-                    <Route exact path="/">
-                        <Home />
-                    </Route>
-                    <Route path="/sign-in">
-                        <Signin onSignin={assessLogedInState} />
-                    </Route>
+                    {!loggedIn ? (
+                        <>
+                            <Route exact path="/">
+                                <Home />
+                            </Route>
+                            <Route exact path="/signin">
+                                <SignIn onSignIn={assessLoggedInState} />
+                            </Route>
+                        </>
+                    ) : (
+                        <>
+                            <Route exact path="/">
+                                <Redirect to="/posts" />
+                            </Route>
+                            <Route exact path="/posts">
+                                <Posts />
+                            </Route>
+                            <Nav />
+                        </>
+                    )}
                 </Switch>
-            </div>
-        </Router>
+            </Router>
+        </ChakraProvider>
     );
 };
-
-export default App; //withAuthenticator(App);
