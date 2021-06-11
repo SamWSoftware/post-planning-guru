@@ -41,12 +41,45 @@ type Query {
     ): SchedulePage
 }
 type Mutation {
-    createUser(firstName: String!, lastName: String!): User
+    createCompany(companyName: String!, companyLogoURL: String): Company
+    setCompanyLinkedInCode(companyID: ID!, linkedInCode: String!): Company
 
-    createCompany(userID: String!, companyName: String!, companyLogoURL: String): Company
+    createPost(companyID: ID!, contentText: String!, groupID: ID, publishTime: Long): Post
+    updatePost(
+        postID: ID!
+        contentText: String
+        newGroupID: ID
+        publishTime: Long
+        draft: Boolean
+    ): Post
+    deletePost(postID: ID!): Boolean!
 
-    setCompanyLinkedInCode(companyID: String!, linkedInCode: String!): Company
-    createCompanyLinkedInToken(companyID: String!): Company
+    createGroup(companyID: ID!, groupName: String!, colour: String!, description: String): Group
+    updateGroup(
+        companyID: ID!
+        groupID: ID!
+        groupName: String
+        colour: String
+        description: String
+    ): Group
+    #deleteGroup(companyID: ID!, groupID: ID!): Boolean!  Do we actually want to delete a group or just make it unselectable ??
+
+    createSchedule(
+        companyID: ID!
+        groupID: ID!
+        cronSchedule: String!
+        name: String
+        description: String
+    ): Schedule
+    updateSchedule(
+        companyID: ID!
+        scheduleID: ID!
+        groupID: ID
+        cronSchedule: String
+        name: String
+        description: String
+    ): Schedule
+    deleteSchedule(companyID: ID!, scheduleID: ID!): Boolean!
 }
 
 type User @model @key(fields: ["userID"]) {
@@ -96,9 +129,10 @@ type Post
     postID: ID!
     companyID: ID!
     company: Company!
-    groupID: ID!
-    group: Group!
+    groupID: ID
+    group: Group
     date: Long!
+    isDraft: Boolean
 
     content: Content!
 
@@ -130,6 +164,7 @@ type Group @model @key(fields: ["companyID", "groupID"]) {
     groupID: String!
     groupName: String!
     description: String
+    colour: String!
 
     company: Company!
 

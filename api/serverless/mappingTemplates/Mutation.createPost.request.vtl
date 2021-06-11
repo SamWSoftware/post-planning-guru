@@ -1,0 +1,26 @@
+#set( $date = $util.time.nowEpochMilliSeconds() )
+#set( $sortKey2p1 = $util.defaultIfNullOrBlank($context.arguments.groupID, ''  ) )
+
+{
+    "version" : "2018-05-29",
+    "operation" : "PutItem",
+    "key": {
+        "postID" : $util.dynamodb.toDynamoDBJson($util.autoId())
+    },
+    "attributeValues" : {
+        "companyID": $util.dynamodb.toDynamoDBJson($context.arguments.companyID),
+        "sortKey2": $util.dynamodb.toDynamoDBJson("$sortKey2p1$date"),
+        "groupID": $util.dynamodb.toDynamoDBJson(
+            $util.defaultIfNullOrBlank($context.arguments.groupID, null)
+        ),
+        "date": $util.dynamodb.toDynamoDBJson($date),
+        
+        "isDraft": $util.dynamodb.toDynamoDBJson($util.defaultIfNullOrBlank($context.arguments.isDraft, false)),
+
+        "content":{ "M": {
+            "text": {"S": "$context.arguments.contentText" }
+        }},
+
+        "TTL": $util.dynamodb.toDynamoDBJson($context.arguments.publishTime)
+    }
+}

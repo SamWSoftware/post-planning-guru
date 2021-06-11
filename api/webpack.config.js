@@ -10,7 +10,7 @@ This line is only required if you are specifying `TS_NODE_PROJECT` for whatever 
 
 module.exports = {
     context: __dirname,
-    mode: slsw.lib.webpack.isLocal ? 'development' : 'production',
+    mode: 'development',
     entry: slsw.lib.entries,
     devtool: slsw.lib.webpack.isLocal ? 'eval-cheap-module-source-map' : 'source-map',
     resolve: {

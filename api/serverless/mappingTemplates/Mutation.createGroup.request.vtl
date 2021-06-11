@@ -1,0 +1,14 @@
+{
+    "version" : "2018-05-29",
+    "operation" : "PutItem",
+    "key": {
+        "companyID": $util.dynamodb.toDynamoDBJson($context.arguments.companyID),
+        "groupID" : $util.dynamodb.toDynamoDBJson($util.autoId())
+    },
+    "attributeValues" : {
+
+        "groupName": $util.dynamodb.toDynamoDBJson($context.arguments.groupName),
+        "colour": $util.dynamodb.toDynamoDBJson($context.arguments.colour),
+        "description": $util.dynamodb.toDynamoDBJson($context.arguments.description)
+    }
+}

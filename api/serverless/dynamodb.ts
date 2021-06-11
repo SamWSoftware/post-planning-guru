@@ -233,7 +233,7 @@ const DynamoDBResources = {
         },
     },
 
-    ScheduleTable: {
+    SchedulesTable: {
         Type: 'AWS::DynamoDB::Table',
         Properties: {
             BillingMode: 'PAY_PER_REQUEST',

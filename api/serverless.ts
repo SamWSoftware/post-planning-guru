@@ -5,6 +5,17 @@ import appSync from './serverless/appsync.api'
 import CognitoResources from './serverless/cognitoResources';
 import DynamoDBResources from './serverless/dynamodb'
 
+
+const DynamoTableNames = () => {
+    const tableNames: {[key: string]: {Ref: string}} = {}
+    Object.keys(DynamoDBResources).map(tableName => {
+        tableNames[tableName] = { Ref: tableName };
+    })
+
+    return tableNames;
+}
+
+
 const serverlessConfiguration: AWS = {
     service: 'post-planning-guru-api',
     frameworkVersion: '2',
@@ -33,15 +44,13 @@ const serverlessConfiguration: AWS = {
         },
         environment: {
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
-            region: '${self:provider.region}'
+            region: '${self:provider.region}',
+            ...DynamoTableNames()
         },
         lambdaHashingVersion: '20201221',
     },
     package:{
-        exclude: [
-            'package-lock.json',
-            'package.json'
-        ]
+        individually: true
     },
     // import the function via paths
     functions,
@@ -59,3 +68,5 @@ const serverlessConfiguration: AWS = {
 };
 
 module.exports = serverlessConfiguration;
+
+

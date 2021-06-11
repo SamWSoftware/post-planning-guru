@@ -1,0 +1,10 @@
+{
+    "version" : "2018-05-29",
+    "operation" : "DeleteItem",
+    "key": {
+        "postID" : $util.dynamodb.toDynamoDBJson($context.arguments.postID)
+    },
+    "condition": {
+        "expression": "attribute_exists(postID)"
+    }
+}

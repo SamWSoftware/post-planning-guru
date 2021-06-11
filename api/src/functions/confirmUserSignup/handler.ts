@@ -4,7 +4,7 @@ import DynamoUtils from '@libs/dynamoDB';
 
 const { USERS_TABLE } = process.env;
 
-interface PostConfirmaitonEvent {
+interface PostConfirmationEvent {
     version: string;
     region: string;
     userPoolId: string;
@@ -27,9 +27,9 @@ interface PostConfirmaitonEvent {
     response: {};
 }
 
-const handler: Handler<PostConfirmaitonEvent> = async event => {
+const handler: Handler<PostConfirmationEvent> = async event => {
     try {
-        if (event.triggerSource !== 'PostConfirmation_ConfirmSignup') {
+        if (event.triggerSource == 'PostConfirmation_ConfirmSignup') {
             const { userAttributes } = event.request;
             const userData = {
                 userID: event.userName,

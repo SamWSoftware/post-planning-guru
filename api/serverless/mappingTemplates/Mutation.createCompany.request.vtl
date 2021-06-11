@@ -1,0 +1,12 @@
+{
+    "version" : "2018-05-29",
+    "operation" : "PutItem",
+    "key": {
+        "companyID" : $util.dynamodb.toDynamoDBJson($util.autoId()),
+    },
+    "attributeValues" : {
+        "ownerID" : $util.dynamodb.toDynamoDBJson($context.identity.username),
+        "companyName" : $util.dynamodb.toDynamoDBJson($context.arguments.companyName),
+        "companyLogoURL" : $util.dynamodb.toDynamoDBJson($util.defaultIfNullOrBlank($context.result.companyLogoURL, null)),
+    }
+}

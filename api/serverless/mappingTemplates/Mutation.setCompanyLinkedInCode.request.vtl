@@ -1,0 +1,16 @@
+{
+    "version" : "2018-05-29",
+    "operation" : "UpdateItem", 
+    "key": {
+        "companyID" : $util.dynamodb.toDynamoDBJson($context.arguments.companyID),
+    },
+    "update": {
+        "expression": "set linkedInCode = :linkedInCode",
+        "expressionValues" : {
+            ":linkedInCode" : $util.dynamodb.toDynamoDBJson($context.arguments.linkedInCode),
+        }
+    },
+    "condition": {
+        "expression": "attribute_exists(companyID)"
+    }
+}
