@@ -7,14 +7,16 @@ import awsconfig from './aws-exports';
 import theme from './theme';
 import '@fontsource/comfortaa';
 
-import Home from './components/Home';
+import Home from './components/view/Home';
 import Posts from './components/view/Posts';
-import SignIn from './components/SignIn';
+import SignIn from './components/view/SignIn';
 import Nav from './components/organism/Nav';
 
 Amplify.configure(awsconfig);
 
 export const App = () => {
+    const [loggedIn, setLoggedIn] = useState(false);
+
     useEffect(() => {
         assessLoggedInState();
     }, []);
@@ -30,8 +32,6 @@ export const App = () => {
                 setLoggedIn(false);
             });
     };
-
-    const [loggedIn, setLoggedIn] = useState(false);
 
     const signOut = async () => {
         try {

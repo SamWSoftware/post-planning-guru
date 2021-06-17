@@ -9,7 +9,7 @@ import {
     Heading,
     Container,
 } from '@chakra-ui/react';
-import { ColorModeSwitcher } from '../../../ColorModeSwitcher';
+import { ColorModeSwitcher } from '../../atom/ColorModeSwitcher';
 
 interface Props {}
 

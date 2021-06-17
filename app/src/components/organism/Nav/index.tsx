@@ -11,7 +11,7 @@ import {
     HStack,
     IconButton,
 } from '@chakra-ui/react';
-import { ColorModeSwitcher } from '../../../ColorModeSwitcher';
+import { ColorModeSwitcher } from '../../atom/ColorModeSwitcher';
 import HomeIcon from '../../atom/HomeIcon';
 
 interface Props {}

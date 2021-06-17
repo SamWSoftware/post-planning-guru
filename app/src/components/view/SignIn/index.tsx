@@ -9,7 +9,7 @@ import {
     InputGroup,
     InputRightElement,
 } from '@chakra-ui/react';
-import { ColorModeSwitcher } from '../../ColorModeSwitcher';
+import { ColorModeSwitcher } from '../../atom/ColorModeSwitcher';
 import { Input } from '@chakra-ui/react';
 import { Link, useHistory } from 'react-router-dom';
 import { Auth } from 'aws-amplify';
