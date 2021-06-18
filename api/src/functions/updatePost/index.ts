@@ -6,6 +6,7 @@ interface UpdatePostArguments {
     contentText: string;
     newGroupID?: string;
     publishTime?: Long;
+    title?: string;
     draft?: Boolean;
 }
 
@@ -15,7 +16,7 @@ interface Post {
     date: number;
     groupID: string;
     isDraft: boolean;
-
+    title: string;
     content: {
         text?: string;
     };
@@ -25,14 +26,14 @@ let errorMessage = '';
 
 const handler = async (event: AppSyncResolverEvent<UpdatePostArguments>) => {
     errorMessage = '';
-    const { postID, contentText, newGroupID, publishTime, draft } = event.arguments;
+    const { postID, contentText, newGroupID, publishTime, draft, title } = event.arguments;
     try {
         if (!postID) {
             errorMessage = 'postID needs to be provided';
             throw Error(errorMessage);
         }
 
-        if (!contentText && !newGroupID && !publishTime && !draft) {
+        if (!contentText && !newGroupID && !publishTime && !draft && !title) {
             errorMessage = 'a field to update needs to be provided';
             throw Error(errorMessage);
         }
@@ -59,6 +60,7 @@ const handler = async (event: AppSyncResolverEvent<UpdatePostArguments>) => {
             TTL: publishTime ? Number(publishTime) : post.TTL,
             isDraft: draft !== undefined ? draft : post.isDraft,
             content: updatedContent,
+            title: title || post.title,
         };
 
         await DynamoUtils.write({ data: updatedPost, tableName: process.env.PostsTable });

@@ -10,9 +10,6 @@
         "node": ">=14.15.0"
     },
     "dependencies": {
-        "@chakra-ui/icons": "^1.0.13",
-        "@middy/core": "^1.5.2",
-        "@middy/http-json-body-parser": "^1.5.2",
         "cron-parser": "^2.18.0",
         "source-map-support": "^0.5.19",
         "uuid": "^8.3.2",

@@ -14,6 +14,7 @@
             $util.defaultIfNullOrBlank($context.arguments.groupID, null)
         ),
         "date": $util.dynamodb.toDynamoDBJson($date),
+        "title": $util.dynamodb.toDynamoDBJson($util.defaultIfNullOrBlank($context.arguments.title, '')),
         
         "isDraft": $util.dynamodb.toDynamoDBJson($util.defaultIfNullOrBlank($context.arguments.isDraft, false)),
 
