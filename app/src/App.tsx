@@ -11,6 +11,7 @@ import Home from './components/view/Home';
 import Posts from './components/view/Posts';
 import SignIn from './components/view/SignIn';
 import Nav from './components/organism/Nav';
+import UserProvider from './context/userContext';
 
 Amplify.configure(awsconfig);
 
@@ -56,7 +57,7 @@ export const App = () => {
                             </Route>
                         </>
                     ) : (
-                        <>
+                        <UserProvider>
                             <Route exact path="/">
                                 <Redirect to="/posts" />
                             </Route>
@@ -64,7 +65,7 @@ export const App = () => {
                                 <Posts />
                             </Route>
                             <Nav />
-                        </>
+                        </UserProvider>
                     )}
                 </Switch>
             </Router>
