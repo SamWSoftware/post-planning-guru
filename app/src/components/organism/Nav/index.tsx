@@ -46,19 +46,11 @@ const Nav: React.FC<Props> = () => {
                     <Button>+</Button>
                 </Link>
                 <Link to="/published-posts">
-                    <IconButton aria-label="Search database" icon={<HomeIcon />}></IconButton>
+                    <IconButton aria-label="Published Posts" icon={<HomeIcon />}></IconButton>
                 </Link>
-                {
-                    //<Link to="/my-account">
-                }
-                <IconButton
-                    aria-label="Search database"
-                    onClick={consoleUser}
-                    icon={<HomeIcon />}
-                ></IconButton>
-                {
-                    //</Link>
-                }
+                <Link to="/account">
+                    <IconButton aria-label="My Account" icon={<HomeIcon />}></IconButton>
+                </Link>
             </HStack>
         </Container>
     );

@@ -43,7 +43,7 @@ const Home: React.FC<Props> = () => {
                         bg={useColorModeValue('black', 'white')}
                         color={useColorModeValue('white', 'black')}
                     >
-                        REGISTER
+                        <Link to="register">REGISTER</Link>
                     </Button>
                 </ButtonGroup>
             </Center>

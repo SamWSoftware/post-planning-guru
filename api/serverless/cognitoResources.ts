@@ -27,17 +27,17 @@ const CognitoResources = {
             },
         },
     },
-    /*
+
     UserPoolInvokeConfirmUserSignupLambdaPermission: {
         Type: 'AWS::Lambda::Permission',
         Properties: {
             Action: 'lambda:invokeFunction',
-            FunctionName: 'ConfirmUserSignupLambdaFunction',
+            FunctionName: { Ref: 'ConfirmUserSignupLambdaFunction' },
             Principal: 'cognito-idp.amazonaws.com',
-            SourceArn: 'GetAtt CognitoUserPool.Arn',
+            SourceArn: { 'Fn::GetAtt': ['ConfirmUserSignupLambdaFunction', 'Arn'] },
         },
     },
-    */
+
     WebUserPoolClient: {
         Type: 'AWS::Cognito::UserPoolClient',
         Properties: {

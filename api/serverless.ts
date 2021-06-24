@@ -1,20 +1,18 @@
 import type { AWS } from '@serverless/typescript';
 
 import functions from './src/functions';
-import appSync from './serverless/appsync.api'
+import appSync from './serverless/appsync.api';
 import CognitoResources from './serverless/cognitoResources';
-import DynamoDBResources from './serverless/dynamodb'
-
+import DynamoDBResources from './serverless/dynamodb';
 
 const DynamoTableNames = () => {
-    const tableNames: {[key: string]: {Ref: string}} = {}
+    const tableNames: { [key: string]: { Ref: string } } = {};
     Object.keys(DynamoDBResources).map(tableName => {
         tableNames[tableName] = { Ref: tableName };
-    })
+    });
 
     return tableNames;
-}
-
+};
 
 const serverlessConfiguration: AWS = {
     service: 'post-planning-guru-api',
@@ -24,14 +22,14 @@ const serverlessConfiguration: AWS = {
             webpackConfig: './webpack.config.js',
             includeModules: true,
         },
-        appSync
+        appSync,
     },
     plugins: [
         'serverless-webpack',
         'serverless-offline',
         'serverless-dynamodb-local',
         'serverless-appsync-plugin',
-        'serverless-iam-roles-per-function'
+        'serverless-iam-roles-per-function',
     ],
     provider: {
         name: 'aws',
@@ -45,28 +43,26 @@ const serverlessConfiguration: AWS = {
         environment: {
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
             region: '${self:provider.region}',
-            ...DynamoTableNames()
+            ...DynamoTableNames(),
         },
         lambdaHashingVersion: '20201221',
     },
-    package:{
-        individually: true
+    package: {
+        individually: true,
     },
     // import the function via paths
     functions,
     resources: {
         Resources: {
             ...CognitoResources,
-            ...DynamoDBResources
+            ...DynamoDBResources,
         },
-        Outputs:{ 
+        Outputs: {
             CognitoUserPoolId: {
-                Value: {"Ref": 'CognitoUserPool'}
-            }
-        }
-    }
+                Value: { Ref: 'CognitoUserPool' },
+            },
+        },
+    },
 };
 
 module.exports = serverlessConfiguration;
-
-

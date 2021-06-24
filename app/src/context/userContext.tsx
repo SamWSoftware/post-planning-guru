@@ -13,11 +13,15 @@ const UserProvider: React.FC = ({ children }) => {
         // get the current user
         API.graphql<{ getMyUser: IUser }>({
             query: getMyUser,
-        }).then(res => {
-            const user = res.data!.getMyUser;
-            setUser(user || null);
-            console.log('user in user context', user);
-        });
+        })
+            .then(res => {
+                const user = res.data!.getMyUser;
+                setUser(user || null);
+                console.log('user in user context', user);
+            })
+            .catch(error => {
+                console.error('error getting my user', error);
+            });
     }, []);
 
     const { Provider } = UserContext;

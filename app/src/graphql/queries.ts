@@ -13,6 +13,7 @@ export const getMyUser = /* GraphQL */ `
                     companyID
                     companyName
                     companyLogoURL
+                    linkedInCode
                 }
             }
         }

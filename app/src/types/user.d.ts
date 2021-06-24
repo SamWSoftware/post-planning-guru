@@ -13,4 +13,5 @@ interface IUserCompany {
     companyID: string;
     companyName: string;
     companyLogoURL: string;
+    linkedInCode?: string;
 }

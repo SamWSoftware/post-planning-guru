@@ -93,7 +93,10 @@ const appSync = {
             {
                 type: 'Mutation',
                 field: 'createCompany',
-                dataSource: 'companiesTable',
+                kind: 'PIPELINE',
+                functions: ['createCompany', 'connectCompanyToUser'],
+                request: 'simplePipeline.request.vtl',
+                response: 'simplePipeline.response.vtl',
             },
             {
                 type: 'Mutation',
@@ -262,6 +265,14 @@ const appSync = {
         {
             name: 'hydrateCompanies',
             dataSource: 'companiesTable',
+        },
+        {
+            name: 'createCompany',
+            dataSource: 'companiesTable',
+        },
+        {
+            name: 'connectCompanyToUser',
+            dataSource: 'relationshipsTable',
         },
     ],
 

@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
 import Amplify, { Auth } from 'aws-amplify';
-import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    Redirect,
+    useHistory,
+} from 'react-router-dom';
 import awsconfig from './aws-exports';
 
 import theme from './theme';
@@ -12,11 +19,18 @@ import Posts from './components/view/Posts';
 import SignIn from './components/view/SignIn';
 import Nav from './components/organism/Nav';
 import UserProvider from './context/userContext';
+import Register from './components/view/Register';
+import Account from './components/view/Account';
+import VerifyCode from './components/view/VerifyCode';
+import SignedInRouteGroup from './components/routingGroups/SignedInRouteGroup';
 
 Amplify.configure(awsconfig);
 
 export const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
+    const history = useHistory();
+
+    const [signupEmail, setSignupEmail] = useState('');
 
     useEffect(() => {
         assessLoggedInState();
@@ -38,6 +52,7 @@ export const App = () => {
         try {
             await Auth.signOut();
             setLoggedIn(false);
+            history.push('/');
         } catch (error) {
             console.log('error signing out: ', error);
         }
@@ -46,28 +61,26 @@ export const App = () => {
     return (
         <ChakraProvider theme={theme}>
             <Router>
-                <Switch>
-                    {!loggedIn ? (
-                        <>
-                            <Route exact path="/">
-                                <Home />
-                            </Route>
-                            <Route exact path="/signin">
-                                <SignIn onSignIn={assessLoggedInState} />
-                            </Route>
-                        </>
-                    ) : (
-                        <UserProvider>
-                            <Route exact path="/">
-                                <Redirect to="/posts" />
-                            </Route>
-                            <Route exact path="/posts">
-                                <Posts />
-                            </Route>
-                            <Nav />
-                        </UserProvider>
-                    )}
-                </Switch>
+                {!loggedIn ? (
+                    <Switch>
+                        <Route exact path="/">
+                            <Home />
+                        </Route>
+                        <Route exact path="/signin">
+                            <SignIn onSignIn={assessLoggedInState} />
+                        </Route>
+                        <Route exact path="/register">
+                            <Register setSignupEmail={setSignupEmail} />
+                        </Route>
+                        <Route exact path="/verify">
+                            <VerifyCode signupEmail={signupEmail} setSignupEmail={setSignupEmail} />
+                        </Route>
+                    </Switch>
+                ) : (
+                    <UserProvider>
+                        <SignedInRouteGroup onSignOut={signOut} />
+                    </UserProvider>
+                )}
             </Router>
         </ChakraProvider>
     );

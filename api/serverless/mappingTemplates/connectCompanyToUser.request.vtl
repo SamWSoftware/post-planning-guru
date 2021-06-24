@@ -1,0 +1,15 @@
+#set( $company = $context.prev.result )
+
+{
+    "version" : "2018-05-29",
+    "operation" : "PutItem",
+    "key": {
+        "companyID" : $util.dynamodb.toDynamoDBJson($company.companyID),
+    },
+    "attributeValues" : {
+        "companyRelationship" : $util.dynamodb.toDynamoDBJson("admin_$context.identity.username"),
+        "userID" : $util.dynamodb.toDynamoDBJson($context.identity.username),
+        "userRelationship" : $util.dynamodb.toDynamoDBJson("worksFor_$company.companyID"),
+    }
+}
+

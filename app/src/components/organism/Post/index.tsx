@@ -63,7 +63,7 @@ const Post: React.FC<Props> = ({ post }) => {
                         }
                         return name;
                     }}
-                />{' '}
+                />
                 <Heading as="h4" size="md" width="180px">
                     {title}
                 </Heading>

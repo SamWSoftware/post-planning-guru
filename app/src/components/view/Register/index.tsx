@@ -15,10 +15,11 @@ import { Link, useHistory } from 'react-router-dom';
 import { Auth } from 'aws-amplify';
 
 interface Props {
-    onSignIn: () => void;
+    setSignupEmail: (email: string) => void;
 }
 
-const SignIn: React.FC<Props> = ({ onSignIn }) => {
+const Register: React.FC<Props> = ({ setSignupEmail }) => {
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const history = useHistory();
@@ -28,17 +29,19 @@ const SignIn: React.FC<Props> = ({ onSignIn }) => {
     const [show, setShow] = React.useState(false);
     const handleClick = () => setShow(!show);
 
-    const signInFunction = async () => {
+    const registerFunction = async () => {
         try {
-            const user = await Auth.signIn(email, password);
-            history.push('/');
-            onSignIn();
+            const { user } = await Auth.signUp({
+                username: email,
+                password: password,
+                attributes: {
+                    name,
+                },
+            });
+            setSignupEmail(email);
+            history.push('/verify');
         } catch (error) {
-            console.log('error signing in', error);
-            if (error.code === 'UserNotConfirmedException') {
-                setErrorMessage('Your email address has not been confirmed');
-                return;
-            }
+            console.log('error registering', error);
             setErrorMessage(error.message);
         }
     };
@@ -46,9 +49,17 @@ const SignIn: React.FC<Props> = ({ onSignIn }) => {
     return (
         <Grid minH="100vh" p={5} bg={useColorModeValue('light.200', 'dark.700')}>
             <ColorModeSwitcher justifySelf="flex-end" />
-            <Heading marginTop="20px">Log In</Heading>
+            <Heading marginTop="20px">Register</Heading>
             <VStack>
                 <div>{errorMessage}</div>
+                <Input
+                    placeholder="Full Name"
+                    bg={useColorModeValue('white', 'dark.700')}
+                    border="2px"
+                    borderColor={useColorModeValue('black', 'white')}
+                    onChange={e => setName(e.target.value)}
+                    value={name}
+                />
                 <Input
                     placeholder="Email Address"
                     bg={useColorModeValue('white', 'dark.700')}
@@ -75,19 +86,27 @@ const SignIn: React.FC<Props> = ({ onSignIn }) => {
                     </InputRightElement>
                 </InputGroup>
                 <Button
-                    bg={useColorModeValue('black', 'white')}
-                    color={useColorModeValue('white', 'black')}
+                    border="2px"
+                    borderColor={useColorModeValue('dark.900', 'white')}
+                    bg={useColorModeValue('white', 'dark.900')}
                     width="100%"
-                    onClick={signInFunction}
+                    onClick={registerFunction}
                 >
                     Next
                 </Button>
                 <Button
-                    color={useColorModeValue('black', 'white')}
-                    bg={useColorModeValue('white', 'black')}
+                    bg={useColorModeValue('black', 'white')}
+                    color={useColorModeValue('white', 'black')}
                     width="100%"
                 >
-                    <Link to="/register">I need to Register</Link>
+                    <Link to="/verify">I have a Verification Code</Link>
+                </Button>
+                <Button
+                    bg={useColorModeValue('black', 'white')}
+                    color={useColorModeValue('white', 'black')}
+                    width="100%"
+                >
+                    <Link to="/">Home</Link>
                 </Button>
             </VStack>
             <div></div>
@@ -95,4 +114,4 @@ const SignIn: React.FC<Props> = ({ onSignIn }) => {
     );
 };
 
-export default SignIn;
+export default Register;
