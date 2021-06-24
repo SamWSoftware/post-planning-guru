@@ -39,7 +39,7 @@ const linkedInSignupUrl = {
 const CreateCompany: React.FC<Props> = ({ isFirstCompany }) => {
     const [profile, setProfile] = useState('');
 
-    const createCompanyFn = async () => {
+    const createCompany = async () => {
         try {
             const res = await API.graphql({
                 query: graphql.mutations.createCompany,
@@ -81,7 +81,7 @@ const CreateCompany: React.FC<Props> = ({ isFirstCompany }) => {
                     bg={useColorModeValue('black', 'white')}
                     color={useColorModeValue('white', 'black')}
                     width="100%"
-                    onClick={createCompanyFn}
+                    onClick={createCompany}
                 >
                     Connect To LinkedIn
                 </Button>

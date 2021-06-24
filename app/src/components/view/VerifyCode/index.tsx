@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, VStack, Grid, useColorModeValue, Heading, Input } from '@chakra-ui/react';
+import { Button, VStack, Grid, useColorModeValue, Heading, Input, Text } from '@chakra-ui/react';
 import { ColorModeSwitcher } from '../../atom/ColorModeSwitcher';
 import { Auth } from 'aws-amplify';
 import { Link, useHistory } from 'react-router-dom';
@@ -22,7 +22,7 @@ const VerifyCode: React.FC<Props> = ({ signupEmail, setSignupEmail }) => {
         try {
             await Auth.confirmSignUp(email, code);
             setSignupEmail(email);
-            history.push('/linkedin-confirmation/');
+            history.push('/signin');
         } catch (error) {
             if (error.code === 'ExpiredCodeException') {
                 setCodeExpired(true);
@@ -30,7 +30,7 @@ const VerifyCode: React.FC<Props> = ({ signupEmail, setSignupEmail }) => {
                 return;
             }
             if (error.code === 'NotAuthorizedException') {
-                history.push('/linkedin-confirmation');
+                history.push('/signin');
             }
             console.log('error confirming code', error);
             setErrorMessage(error.message);
@@ -57,6 +57,10 @@ const VerifyCode: React.FC<Props> = ({ signupEmail, setSignupEmail }) => {
             <Heading marginTop="20px">Verify Code</Heading>
             <VStack>
                 <div>{errorMessage}</div>
+                <Text>
+                    You should receive an email containing a verification code. If you can't find
+                    it, please check your spam folder
+                </Text>
                 <Input
                     placeholder="Email Address"
                     bg={useColorModeValue('white', 'dark.700')}

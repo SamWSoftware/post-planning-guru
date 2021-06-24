@@ -18,7 +18,6 @@ const SignedInRouteGroup: React.FC<Props> = ({ onSignOut }) => {
     const { selectedCompany } = useContext(CompanyContext);
 
     if (!selectedCompany) {
-        console.log('no company');
         // need to create a 'company' to post for
         return <CreateCompany isFirstCompany />;
     }
@@ -34,7 +33,7 @@ const SignedInRouteGroup: React.FC<Props> = ({ onSignOut }) => {
                     <LinkedInConfirmation />
                 </Route>
                 <Route path="/">
-                    <Redirect to="/linkedin-confirmation" />
+                    <LinkedInConfirmation />
                 </Route>
             </Switch>
         );

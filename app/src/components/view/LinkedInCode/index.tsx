@@ -34,7 +34,8 @@ const LinkedInCode: React.FC<Props> = ({ companyID }) => {
                     companyID,
                 },
             });
-
+            setSaved(true);
+            setFastSkip(true);
             setTimeout(() => {
                 window.location.reload();
             }, 5000);
@@ -70,6 +71,9 @@ const LinkedInCode: React.FC<Props> = ({ companyID }) => {
                     color={useColorModeValue('white', 'black')}
                     width="100%"
                     disabled={!fastSkip}
+                    onClick={() => {
+                        window.location.href = window.location.origin;
+                    }}
                 >
                     Go to Home Page
                 </Button>
