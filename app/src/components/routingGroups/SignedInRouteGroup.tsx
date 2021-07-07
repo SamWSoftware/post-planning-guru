@@ -6,6 +6,7 @@ import { CompanyContext } from '../../context/companyContext';
 import Nav from '../organism/Nav';
 import Account from '../view/Account';
 import CreateCompany from '../view/CreateCompany';
+import EditPost from '../view/EditPost';
 import LinkedInCode from '../view/LinkedInCode';
 import LinkedInConfirmation from '../view/LinkedInConfirmation';
 import Posts from '../view/Posts';
@@ -27,6 +28,7 @@ const SignedInRouteGroup: React.FC<Props> = ({ onSignOut }) => {
         return (
             <Switch>
                 <Route exact path="/auth/linkedin/callback">
+                    {console.log('code')}
                     <LinkedInCode companyID={selectedCompany.companyID} />
                 </Route>
                 <Route exact path="/linkedin-confirmation">
@@ -45,6 +47,14 @@ const SignedInRouteGroup: React.FC<Props> = ({ onSignOut }) => {
                 <Route exact path="/posts">
                     <Posts />
                 </Route>
+                <Route path="/add-post">
+                    <EditPost create />
+                </Route>
+                <Route exact path="/post/:postID">
+                    {console.log('update post')}
+                    <EditPost />
+                </Route>
+
                 <Route exact path="/account">
                     <Account onSignOut={onSignOut} />
                 </Route>

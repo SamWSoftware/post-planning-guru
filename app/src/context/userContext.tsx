@@ -17,7 +17,6 @@ const UserProvider: React.FC = ({ children }) => {
             .then(res => {
                 const user = res.data!.getMyUser;
                 setUser(user || null);
-                console.log('user in user context', user);
             })
             .catch(error => {
                 console.error('error getting my user', error);

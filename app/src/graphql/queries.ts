@@ -35,6 +35,14 @@ export const getCompany = /* GraphQL */ `
             linkedInCode
             accessToken
             accessTokenExpiry
+            groups {
+                groups {
+                    groupID
+                    groupName
+                    description
+                    colour
+                }
+            }
         }
     }
 `;
@@ -58,23 +66,37 @@ export const getPost = /* GraphQL */ `
     query GetPost($postID: ID!) {
         getPost(postID: $postID) {
             postID
-            companyID
-            groupID
             group {
                 groupID
                 groupName
                 description
                 colour
             }
-            date
             isDraft
             content {
                 text
             }
+            title
             TTL
         }
     }
 `;
+export interface GetPostResponseI {
+    postID: string;
+    group: {
+        groupID: string;
+        groupName: string;
+        description?: string;
+        colour: string;
+    };
+    title?: string;
+    isDraft?: boolean;
+    content: {
+        text: string;
+    };
+    TTL?: number;
+}
+
 export const getPostsForCompany = /* GraphQL */ `
     query GetPostsForCompany($companyID: String!, $limit: Int, $nextToken: String) {
         getPostsForCompany(companyID: $companyID, limit: $limit, nextToken: $nextToken) {

@@ -42,7 +42,7 @@ const Nav: React.FC<Props> = () => {
                 <Link to="/groups">
                     <IconButton aria-label="Search database" icon={<HomeIcon />}></IconButton>
                 </Link>
-                <Link to="/create-post">
+                <Link to="/add-post">
                     <Button>+</Button>
                 </Link>
                 <Link to="/published-posts">

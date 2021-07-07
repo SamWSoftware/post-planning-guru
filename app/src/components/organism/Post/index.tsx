@@ -17,6 +17,7 @@ import { v4 as uuid } from 'uuid';
 
 import './Post.scss';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 interface Props {
     post: IPost;
@@ -28,7 +29,7 @@ const Post: React.FC<Props> = ({ post }) => {
 
     const title = post.title || new Date(Number(post.date)).toLocaleDateString();
     let info = 'Group Schedule';
-    if (post.TTL) info = new Date(Number(post.TTL)).toLocaleDateString();
+    if (post.TTL) info = new Date(Number(post.TTL * 1000)).toLocaleDateString();
     if (post.isDraft) info = 'Draft';
     const ID = uuid();
 
@@ -46,36 +47,38 @@ const Post: React.FC<Props> = ({ post }) => {
             className="Post"
             width="100vw"
         >
-            <HStack justifyContent="space-evenly" margin="5px 0 5px 0">
-                <Avatar
-                    className="groupAvatar"
-                    size="lg"
-                    bg={post.group?.colour ? `#${post.group?.colour}` : 'black'}
-                    color={'white'}
-                    name={post.group?.groupName || 'Schedule'}
-                    getInitials={name => {
-                        if (name.length <= 10) return name;
-                        const mid = Math.floor(name.length / 2);
-                        const before = name.lastIndexOf(' ', mid);
-                        const after = name.indexOf(' ', mid + 1);
-                        if (before > 10 || after > 10) {
-                            return [name.substr(0, mid), name.substr(mid)].join(' ');
-                        }
-                        return name;
-                    }}
-                />
-                <Heading as="h4" size="md" width="180px">
-                    {title}
-                </Heading>
-                <Text fontSize="md" width="85px" textAlign="end">
-                    {info}
-                </Text>
-            </HStack>
-            <hr style={{ height: '1px', border: 'none', 'background-color': '#ccc' }} />
+            <Link to={`/post/${post.postID}`}>
+                <HStack justifyContent="space-evenly" margin="5px 0 5px 0">
+                    <Avatar
+                        className="groupAvatar"
+                        size="lg"
+                        bg={post.group?.colour ? `#${post.group?.colour}` : 'black'}
+                        color={'white'}
+                        name={post.group?.groupName || 'Schedule'}
+                        getInitials={name => {
+                            if (name.length <= 10) return name;
+                            const mid = Math.floor(name.length / 2);
+                            const before = name.lastIndexOf(' ', mid);
+                            const after = name.indexOf(' ', mid + 1);
+                            if (before > 10 || after > 10) {
+                                return [name.substr(0, mid), name.substr(mid)].join(' ');
+                            }
+                            return name;
+                        }}
+                    />
+                    <Heading as="h4" size="md" width="180px">
+                        {title}
+                    </Heading>
+                    <Text fontSize="md" width="85px" textAlign="end">
+                        {info}
+                    </Text>
+                </HStack>
+            </Link>
+            <hr style={{ height: '1px', border: 'none', backgroundColor: '#ccc' }} />
 
             <Text
                 id={ID}
-                style={{ 'white-space': 'pre-wrap' }}
+                style={{ whiteSpace: 'pre-wrap' }}
                 fontSize="md"
                 fontFamily="roboto"
                 noOfLines={expanded ? undefined : 5}

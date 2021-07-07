@@ -1,30 +1,46 @@
 import React, { Dispatch, SetStateAction, useContext, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { UserContext } from './userContext';
+import graphql from '../graphql';
 
 export const CompanyContext = React.createContext<{
-    selectedCompany: IUserCompany | undefined;
-    setSelectedCompany: Dispatch<SetStateAction<IUserCompany | undefined>>;
+    selectedCompany: SelectedCompany | undefined;
+    setSelectedCompanyID: (companyID?: string) => void;
 }>({
     selectedCompany: undefined,
-    setSelectedCompany: (): Dispatch<SetStateAction<IUserCompany | undefined>> => {
-        return {} as Dispatch<SetStateAction<IUserCompany | undefined>>;
-    },
+    setSelectedCompanyID: async (companyID?: string) => {},
 });
 
 const CompanyProvider: React.FC = ({ children }) => {
-    const [selectedCompany, setSelectedCompany] =
-        React.useState<IUserCompany | undefined>(undefined);
+    const [selectedCompany, setSelectedCompany] = React.useState<SelectedCompany | undefined>(
+        undefined
+    );
 
     const user = useContext(UserContext);
     useEffect(() => {
-        console.log('useEffect in the company context', user);
-        setSelectedCompany(user?.companies.companies[0]);
+        setSelectedCompanyID(user?.companies.companies[0].companyID);
     }, [user]);
 
     const { Provider } = CompanyContext;
 
-    return <Provider value={{ selectedCompany, setSelectedCompany }}>{children}</Provider>;
+    const setSelectedCompanyID = async (companyID?: string) => {
+        if (!companyID) return;
+        const result = await API.graphql<{ getCompany: GetCompanyI }>({
+            query: graphql.queries.getCompany,
+            variables: {
+                companyID,
+            },
+        });
+        const companyRes = result.data?.getCompany || ({} as GetCompanyI);
+
+        const {
+            groups: { groups },
+            ...allOtherFields
+        } = companyRes;
+        setSelectedCompany({ ...allOtherFields, groups: groups || [] });
+    };
+
+    return <Provider value={{ selectedCompany, setSelectedCompanyID }}>{children}</Provider>;
 };
 
 export default CompanyProvider;

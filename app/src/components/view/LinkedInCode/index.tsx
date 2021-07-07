@@ -24,9 +24,11 @@ const LinkedInCode: React.FC<Props> = ({ companyID }) => {
     const [saved, setSaved] = useState(false);
     const qsParams = new URLSearchParams(window.location.search);
     const linkedInCode = qsParams.get('code');
+    console.log('LI Code', linkedInCode);
 
     const saveCode = async () => {
         try {
+            console.log('saving code');
             await API.graphql({
                 query: graphql.mutations.setCompanyLinkedInCode,
                 variables: {

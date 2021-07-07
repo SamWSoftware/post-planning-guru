@@ -8,6 +8,7 @@ import {
     useColorModeValue,
     Heading,
     Container,
+    Box,
 } from '@chakra-ui/react';
 import { ColorModeSwitcher } from '../../atom/ColorModeSwitcher';
 import Post from '../../organism/Post';
@@ -50,8 +51,7 @@ const Posts: React.FC<Props> = () => {
     };
 
     return (
-        <Grid minH="100vh" bg={useColorModeValue('light.200', 'dark.700')}>
-            <ColorModeSwitcher justifySelf="flex-end" />
+        <Box minH="100vh" bg={useColorModeValue('light.200', 'dark.700')}>
             <Container
                 paddingTop="30px"
                 marginBottom="10px"
@@ -60,12 +60,12 @@ const Posts: React.FC<Props> = () => {
             >
                 <Heading marginTop="20px">Posts</Heading>
             </Container>
-            <VStack>
+            <VStack marginBottom="80px">
                 {posts.map(post => (
                     <Post post={post} />
                 ))}
             </VStack>
-        </Grid>
+        </Box>
     );
 };
 

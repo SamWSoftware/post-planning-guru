@@ -22,32 +22,23 @@ export const setCompanyLinkedInCode = /* GraphQL */ `
     }
 `;
 export const createPost = /* GraphQL */ `
-    mutation CreatePost($companyID: ID!, $contentText: String!, $groupID: ID, $publishTime: Int) {
+    mutation CreatePost(
+        $companyID: ID!
+        $contentText: String!
+        $title: String
+        $groupID: ID
+        $publishTime: Long
+    ) {
         createPost(
             companyID: $companyID
             contentText: $contentText
+            title: $title
             groupID: $groupID
             publishTime: $publishTime
         ) {
             postID
             companyID
-            company {
-                companyID
-                ownerID
-                companyName
-                companyLogoURL
-                linkedInCode
-                accessToken
-                accessTokenExpiry
-            }
             groupID
-            group {
-                companyID
-                groupID
-                groupName
-                description
-                colour
-            }
             date
             isDraft
             content {
@@ -57,12 +48,21 @@ export const createPost = /* GraphQL */ `
         }
     }
 `;
+export interface CreatePost {
+    companyID: string;
+    contentText: string;
+    title?: string;
+    groupID?: string;
+    publishTime?: number;
+    isDraft?: boolean;
+}
+
 export const updatePost = /* GraphQL */ `
     mutation UpdatePost(
         $postID: ID!
         $contentText: String
         $newGroupID: ID
-        $publishTime: Int
+        $publishTime: Long
         $draft: Boolean
     ) {
         updatePost(
@@ -74,23 +74,7 @@ export const updatePost = /* GraphQL */ `
         ) {
             postID
             companyID
-            company {
-                companyID
-                ownerID
-                companyName
-                companyLogoURL
-                linkedInCode
-                accessToken
-                accessTokenExpiry
-            }
             groupID
-            group {
-                companyID
-                groupID
-                groupName
-                description
-                colour
-            }
             date
             isDraft
             content {
@@ -100,6 +84,15 @@ export const updatePost = /* GraphQL */ `
         }
     }
 `;
+
+export interface UpdatePostI {
+    postID: string;
+    contentText?: string;
+    newGroupID?: string;
+    publishTime?: number;
+    title?: string;
+    draft?: Boolean;
+}
 export const deletePost = /* GraphQL */ `
     mutation DeletePost($postID: ID!) {
         deletePost(postID: $postID)

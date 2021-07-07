@@ -50,6 +50,7 @@ type Mutation {
         title: String
         groupID: ID
         publishTime: Long
+        isDraft: boolean
     ): Post
     updatePost(
         postID: ID!

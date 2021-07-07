@@ -14,4 +14,5 @@ interface IUserCompany {
     companyName: string;
     companyLogoURL: string;
     linkedInCode?: string;
+    groups: IGroup;
 }

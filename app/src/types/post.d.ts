@@ -16,3 +16,10 @@ interface IPost {
     isDraft?: boolean;
     TTL?: number;
 }
+
+interface IGroup {
+    groupID: string;
+    groupName: string;
+    description?: string;
+    colour: string;
+}
